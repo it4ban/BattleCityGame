@@ -28,9 +28,4 @@ if(APPLE)
         PRIVATE
             GL_SILENCE_DEPRECATION
     )
-
-    target_link_libraries(${PROJECT_NAME}
-        PRIVATE
-            "-framework OpenGL"
-    )
 endif()
