@@ -1,9 +1,32 @@
-cmake_minimum_required(VERSION 3.23 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.23)
 
-set(PROJECT_NAME BattleCity)
+project(BattleCity LANGUAGES CXX)
 
-project(${PROJECT_NAME})
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(${PROJECT_NAME})
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
-target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
+add_subdirectory(external/glfw)
+
+add_executable(BattleCity
+    src/main.cpp
+)
+
+target_link_libraries(BattleCity PRIVATE glfw)
+
+if(APPLE)
+    target_compile_definitions(BattleCity
+        PRIVATE
+            GL_SILENCE_DEPRECATION
+    )
+
+    target_link_libraries(BattleCity
+        PRIVATE
+            "-framework OpenGL"
+    )
+endif()
