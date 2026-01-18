@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.23)
 
-project(BattleCity LANGUAGES CXX)
+set(PROJECT_NAME BattleCity)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,21 +11,25 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
-add_subdirectory(external/glfw)
+project(${PROJECT_NAME})
 
-add_executable(BattleCity
+add_executable(${PROJECT_NAME}
     src/main.cpp
 )
 
-target_link_libraries(BattleCity PRIVATE glfw)
+add_subdirectory(external/glfw)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
+
+add_subdirectory(external/glad)
+target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 
 if(APPLE)
-    target_compile_definitions(BattleCity
+    target_compile_definitions(${PROJECT_NAME}
         PRIVATE
             GL_SILENCE_DEPRECATION
     )
 
-    target_link_libraries(BattleCity
+    target_link_libraries(${PROJECT_NAME}
         PRIVATE
             "-framework OpenGL"
     )
